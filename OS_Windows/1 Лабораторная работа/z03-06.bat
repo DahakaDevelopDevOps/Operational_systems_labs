@@ -13,8 +13,12 @@ set /p input=Enter your choice:
 if "!input!"=="1" (
     set /p filename=Enter filename: 
     if not "!filename!"=="" (
-        type nul > "!filename!"
-        echo File created successfully
+        if not exist "!filename!" (
+            type nul > "!filename!"
+            echo File created successfully
+        ) else (
+            echo This file already exists
+        )
     ) else (
         echo Invalid filename
     )
