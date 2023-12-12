@@ -1,0 +1,32 @@
+#include <iostream>
+#include <ctime>
+
+using namespace std;
+
+int main()
+{
+    int i = 0;
+    struct timespec startTime, currentTime;
+    struct timespec startRealTime, currentRealTime;
+
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &startTime);
+    clock_gettime(CLOCK_REALTIME, &startRealTime);
+
+    while (true)
+    {
+        i++;
+        clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &currentTime);
+        double elapsedSeconds = (currentTime.tv_sec - startTime.tv_sec) +
+                                (currentTime.tv_nsec - startTime.tv_nsec) / 1e9;
+
+        if (elapsedSeconds >= 2)
+        {
+            cout << i << endl;
+            break;
+        }
+    }
+    clock_gettime(CLOCK_REALTIME, &currentRealTime);
+    cout << "real time" << (currentRealTime.tv_sec - startRealTime.tv_sec) + (currentRealTime.tv_nsec - startRealTime.tv_nsec) / 1e9 << endl;
+
+    return 0;
+}
